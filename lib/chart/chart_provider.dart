@@ -1,9 +1,12 @@
-import 'package:candlesticks/candlesticks.dart';
+
+import 'package:candlesticks_plus/candlesticks_plus.dart';
 import 'package:csv/csv.dart';
 import 'package:dio/dio.dart';
+import 'package:finance/chart/chart_screen.dart';
 import 'package:flutter/foundation.dart';
 
 class ChartProvider extends ChangeNotifier{
+
 
   List<Candle> _candles = [];
 
@@ -15,9 +18,26 @@ class ChartProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  Future<dynamic> getFinanceData() async {
+  IntervalFilter _selectedIntervalFilter = IntervalFilter.day;
+
+
+  IntervalFilter get selectedIntervalFilter => _selectedIntervalFilter;
+
+  set selectedIntervalFilter(IntervalFilter value) {
+    _selectedIntervalFilter = value;
+    notifyListeners();
+  }
+
+  String? getIntervalValue(){
+    if(selectedIntervalFilter==IntervalFilter.day) return'1d';
+    if(selectedIntervalFilter==IntervalFilter.week) return'1wk';
+    if(selectedIntervalFilter==IntervalFilter.month) return'1mo';
+  }
+
+  Future<dynamic> getFinanceData({required String interval}) async {
    try{
-      var response = await Dio().get('https://query1.finance.yahoo.com/v7/finance/download/SPUS?period1=1633381200&period2=1664917199&interval=1d&events=history&crumb=5YTX%2FgVGBmg');
+      var response = await Dio().get('https://query1.finance.yahoo.com/v7/finance/download/SPUS?period1=1633381200&period2=1664917199&interval=$interval&events=history&crumb=5YTX%2FgVGBmg');
+      print(response.data);
       return response.data;
    }catch(e){
      if (kDebugMode) {
@@ -28,20 +48,20 @@ class ChartProvider extends ChangeNotifier{
 
   }
 
- Future<List<List>> mapStringDataToList()async{
-   var financeData = await getFinanceData();
+ Future<List<List>> mapStringDataToList({required String interval})async{
+   var financeData = await getFinanceData(interval: interval);
     List<List<dynamic>> dataList =
     const CsvToListConverter().convert(financeData,eol: "\n");
     return dataList;
   }
 
 
-  Future<List<Candle>?> getCandles() async {
-    List<List<dynamic>> dataList = await mapStringDataToList();
+getCandles({required String interval}) async {
+    List<List<dynamic>> dataList = await mapStringDataToList(interval: interval);
     try {
       // the package model parse the number values directly so we have to remove the header row of returned data
       dataList.removeAt(0);
-      return dataList.map((e) => Candle.fromJson(e))
+      candles = dataList.map((e) => Candle.fromJson(e))
           .toList()
           .reversed
           .toList();

@@ -24,7 +24,6 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black87,
       body: Container(
         alignment: Alignment.topCenter,
         padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.20),
