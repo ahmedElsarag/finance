@@ -37,7 +37,6 @@ class ChartProvider extends ChangeNotifier{
   Future<dynamic> getFinanceData({required String interval}) async {
    try{
       var response = await Dio().get('https://query1.finance.yahoo.com/v7/finance/download/SPUS?period1=1633381200&period2=1664917199&interval=$interval&events=history&crumb=5YTX%2FgVGBmg');
-      print(response.data);
       return response.data;
    }catch(e){
      if (kDebugMode) {
