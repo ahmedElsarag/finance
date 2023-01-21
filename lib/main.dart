@@ -20,9 +20,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Finance Chart',
-        theme: ThemeData(
-          primarySwatch: Colors.teal,
-        ),
+        theme: ThemeData.dark(),
         home: const AuthScreen(),
       ),
     );
