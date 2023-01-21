@@ -6,21 +6,21 @@ flutter app show yahoo finance chart on candle stick chart, and authenticated us
 ![time_picker_gif](light_time_picker.gif)
 ![time_picker_gif](dark_time_picker.gif)
 
-# important packages used 
+## important packages used 
 
-## local_auth:
+### local_auth:
 
 used to authenticate using biometrics (finger print)
 
-## csv:
+### csv:
 
 used to read data from csv response and map it to List
 
-## candlesticks_plus:
+### candlesticks_plus:
 
 used to draw the data in the form fo candle stick chart
 
-*in this package you must replace the Candle Model fromJson with this code*
+**in this package you must replace the Candle Model fromJson with this code**
 because the package depends on data of type String and our data is int, and depends on TimeStampDate
 
 ```dart
