@@ -3,8 +3,7 @@
 
 flutter app show yahoo finance chart on candle stick chart, and authenticated using biometrics
 
-![time_picker_gif](light_time_picker.gif)
-![time_picker_gif](dark_time_picker.gif)
+![time_picker_gif](sample.gif)
 
 ## important packages used 
 

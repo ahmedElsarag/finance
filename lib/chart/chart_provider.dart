@@ -7,6 +7,15 @@ import 'package:flutter/foundation.dart';
 
 class ChartProvider extends ChangeNotifier{
 
+  bool _isDataLoaded = false;
+
+
+  bool get isDataLoaded => _isDataLoaded;
+
+  set isDataLoaded(bool value) {
+    _isDataLoaded = value;
+    notifyListeners();
+  }
 
   List<Candle> _candles = [];
 
@@ -37,11 +46,14 @@ class ChartProvider extends ChangeNotifier{
   Future<dynamic> getFinanceData({required String interval}) async {
    try{
       var response = await Dio().get('https://query1.finance.yahoo.com/v7/finance/download/SPUS?period1=1633381200&period2=1664917199&interval=$interval&events=history&crumb=5YTX%2FgVGBmg');
+      isDataLoaded = true;
       return response.data;
+
    }catch(e){
      if (kDebugMode) {
        print(e.toString());
      }
+
    }
    return null;
 
@@ -66,7 +78,7 @@ getCandles({required String interval}) async {
           .toList();
     } catch (e) {
       if (kDebugMode) {
-        print(e);
+        print(e.toString());
       }
     }
     return null;
